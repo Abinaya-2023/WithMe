@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>WithMe - The Adulthood Companion</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient background elements -->
+  <div class="ambient-glow one"></div>
+  <div class="ambient-glow two"></div>
+
+  <!-- Full Screen Responsive Application Root -->
+  <div class="app-root">
+    
+    <!-- ==================== ONBOARDING VIEW ==================== -->
+    <div id="view-onboarding" class="view active">
+      <!-- Soothing Progress Bar -->
+      <div class="onboarding-progress-bar">
+        <div class="onboarding-progress-fill" id="onboarding-progress"></div>
+      </div>
+
+      <!-- Center-Aligned Card Wrapper for Onboarding -->
+      <div class="onboarding-container-card">
+        
+        <!-- Slide 1: Welcome Splash -->
+        <div class="onboarding-slide active" data-step="1">
+          <div class="onboarding-welcome-visual">
+            <img src="assets/withme_companion.png" alt="WithMe Companion" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; box-shadow: var(--shadow-glow); border: 2px solid white; animation: gentlePulse 4s ease-in-out infinite alternate;">
+          </div>
+          <h1 class="onboarding-title">WithMe</h1>
+          <p class="onboarding-subtitle">"The guide you wish came with adulthood."</p>
+          <p style="font-size: 14.5px; color: var(--color-text-muted); text-align: center; margin-bottom: 30px; line-height: 1.5; padding: 0 10px;">
+            A supportive, emotionally safe companion designed to help you navigate careers, finances, wellness, and big life choices at your own pace.
+          </p>
+          <button class="btn-primary" onclick="nextOnboardingStep()">Begin Journey</button>
+        </div>
+
+        <!-- Slide 2: Name Input -->
+        <div class="onboarding-slide" data-step="2">
+          <h2 class="onboarding-title">Let's begin with your name</h2>
+          <p class="onboarding-subtitle">How should your companion address you?</p>
+          <div class="onboarding-input-group">
+            <input type="text" id="ob-name" class="onboarding-input" placeholder="Enter your name..." autocomplete="off">
+          </div>
+          <div class="onboarding-btn-container">
+            <button class="btn-secondary" onclick="prevOnboardingStep()">Back</button>
+            <button class="btn-primary" onclick="validateAndNext(2)">Continue</button>
+          </div>
+        </div>
+
+        <!-- Slide 3: Age Input -->
+        <div class="onboarding-slide" data-step="3">
+          <h2 class="onboarding-title">How old are you?</h2>
+          <p class="onboarding-subtitle">WithMe helps young adults between 18 and 30 navigate life transitions.</p>
+          <div class="onboarding-input-group">
+            <input type="number" id="ob-age" class="onboarding-input" placeholder="Age (18-30)..." min="18" max="30">
+          </div>
+          <div class="onboarding-btn-container">
+            <button class="btn-secondary" onclick="prevOnboardingStep()">Back</button>
+            <button class="btn-primary" onclick="validateAndNext(3)">Continue</button>
+          </div>
+        </div>
+
+        <!-- Slide 4: Life Stage -->
+        <div class="onboarding-slide" data-step="4">
+          <h2 class="onboarding-title">Where are you in life?</h2>
+          <p class="onboarding-subtitle">Select the stage that describes you best right now.</p>
+          <div class="onboarding-input-group onboarding-grid">
+            <div class="onboarding-card-option" onclick="selectLifeStage(this, 'College Student')">
+              <div class="onboarding-card-indicator"></div>
+              <div class="option-text-container">
+                <span class="option-title">College Student</span>
+              </div>
+            </div>
+            <div class="onboarding-card-option" onclick="selectLifeStage(this, 'Final-Year Student')">
+              <div class="onboarding-card-indicator"></div>
+              <div class="option-text-container">
+                <span class="option-title">Final-Year Student</span>
+              </div>
+            </div>
+            <div class="onboarding-card-option" onclick="selectLifeStage(this, 'Fresh Graduate')">
+              <div class="onboarding-card-indicator"></div>
+              <div class="option-text-container">
+                <span class="option-title">Fresh Graduate</span>
+              </div>
+            </div>
+            <div class="onboarding-card-option" onclick="selectLifeStage(this, 'Early-Career Professional')">
+              <div class="onboarding-card-indicator"></div>
+              <div class="option-text-container">
+                <span class="option-title">Early-Career Professional</span>
+              </div>
+            </div>
+            <div class="onboarding-card-option" onclick="selectLifeStage(this, 'Learning Independence')">
+              <div class="onboarding-card-indicator"></div>
+              <div class="option-text-container">
+                <span class="option-title">Learning Independence</span>
+              </div>
+            </div>
+          </div>
+          <div class="onboarding-btn-container" style="margin-top: 10px;">
+            <button class="btn-secondary" onclick="prevOnboardingStep()">Back</button>
+            <button class="btn-primary" onclick="validateAndNext(4)">Continue</button>
+          </div>
+        </div>
+
+        <!-- Slide 5: Adulthood Fear -->
+        <div class="onboarding-slide" data-step="5">
+          <h2 class="onboarding-title">What is your biggest concern?</h2>
+          <p class="onboarding-subtitle">Is there a specific fear or expectation about adulthood that is currently weighing on you?</p>
+          <div class="onboarding-input-group">
+            <textarea id="ob-fear" class="onboarding-input" style="height: 110px; resize: none; padding-top: 14px;" placeholder="e.g., Finding a job, managing money, making major choices, feeling expected to have everything figured out..."></textarea>
+          </div>
+          <div class="onboarding-btn-container">
+            <button class="btn-secondary" onclick="prevOnboardingStep()">Back</button>
+            <button class="btn-primary" onclick="validateAndNext(5)">Continue</button>
+          </div>
+        </div>
+
+        <!-- Slide 6: Guidance Focus Areas -->
+        <div class="onboarding-slide" data-step="6">
+          <h2 class="onboarding-title">Where do you need support?</h2>
+          <p class="onboarding-subtitle">Choose the focus areas where you would like companion guidance first. (Select all that apply)</p>
+          <div class="onboarding-input-group pills-grid">
+            <div class="pill-option" onclick="toggleFocusArea(this, 'Careers')">Careers</div>
+            <div class="pill-option" onclick="toggleFocusArea(this, 'Money & Finances')">Money & Finances</div>
+            <div class="pill-option" onclick="toggleFocusArea(this, 'Life Skills')">Life Skills</div>
+            <div class="pill-option" onclick="toggleFocusArea(this, 'Relationships')">Relationships</div>
+            <div class="pill-option" onclick="toggleFocusArea(this, 'Wellness')">Wellness</div>
+            <div class="pill-option" onclick="toggleFocusArea(this, 'Personal Growth')">Personal Growth</div>
+          </div>
+          <div class="onboarding-btn-container" style="margin-top: 24px;">
+            <button class="btn-secondary" onclick="prevOnboardingStep()">Back</button>
+            <button class="btn-primary" onclick="validateAndNext(6)">Create Companion</button>
+          </div>
+        </div>
+
+        <!-- Slide 7: Finishing / Intro to Companion -->
+        <div class="onboarding-slide finishing-slide" data-step="7">
+          <div class="finishing-illustration">
+            <div class="finishing-circle"></div>
+            <div class="finishing-avatar">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10h-10V2z"/></svg>
+            </div>
+          </div>
+          <h2 class="onboarding-title" id="companion-intro-title">Meeting WithMe...</h2>
+          <p class="onboarding-subtitle" id="companion-intro-text" style="padding: 0 16px;">
+            "I'm WithMe, your companion. I've designed a quiet, supportive space for your thoughts. You don't have to figure adulthood out alone. Let's begin."
+          </p>
+          <button class="btn-primary" onclick="completeOnboarding()">Enter Space</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== HOME VIEW ==================== -->
+    <div id="view-home" class="view">
+      <div class="view-content">
+        <div class="responsive-container">
+          
+          <header class="home-header">
+            <div class="home-time-greeting" id="home-greeting-label">Good evening</div>
+            <h1 class="home-welcome-name" id="home-user-name">Arjun</h1>
+            <p class="home-subtext">How have things been lately?</p>
+          </header>
+
+          <!-- Adaptive 2-Column Grid Layout for Desktop -->
+          <div class="responsive-grid home-layout">
+            
+            <!-- Home Column Left -->
+            <div class="layout-column">
+              <!-- Continue Journey Section -->
+              <div class="glass-card journey-card">
+                <span class="journey-badge" id="journey-badge-topic">Focus Area</span>
+                <p class="journey-text" id="journey-text-content">Last time we spoke, you were exploring new career fields. How are you feeling about your progress today?</p>
+                <div class="journey-action-btn" onclick="switchTab('walk')">
+                  <span>Continue Walk</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                </div>
+              </div>
+
+              <!-- Polaroid Companion Note -->
+              <div class="handwritten-note">
+                <div class="handwritten-note-header">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                  <span>A note from WithMe</span>
+                </div>
+                <p class="handwritten-note-text" id="companion-handwritten-note">
+                  "Adulthood is not a race. Every person's timeline is completely unique. Take a deep breath. You are growing beautifully."
+                </p>
+              </div>
+            </div>
+
+            <!-- Home Column Right -->
+            <div class="layout-column">
+              <!-- Focus Areas Section -->
+              <div class="glass-card-header" style="margin-bottom: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                <span>Current Focus Areas</span>
+              </div>
+              
+              <div class="focus-grid">
+                <div class="focus-card career" onclick="triggerFocusChat('Career Opportunities')">
+                  <div class="focus-card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                  </div>
+                  <span class="focus-card-title">Careers</span>
+                </div>
+                <div class="focus-card money" onclick="triggerFocusChat('Financial Confidence')">
+                  <div class="focus-card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                  </div>
+                  <span class="focus-card-title">Money Confidence</span>
+                </div>
+                <div class="focus-card skills" onclick="triggerFocusChat('Life Skills')">
+                  <div class="focus-card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                  </div>
+                  <span class="focus-card-title">Life Skills</span>
+                </div>
+                <div class="focus-card growth" onclick="triggerFocusChat('Personal Growth')">
+                  <div class="focus-card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                  </div>
+                  <span class="focus-card-title">Personal Growth</span>
+                </div>
+              </div>
+
+              <!-- Reflection Prompt Card -->
+              <div class="glass-card" style="background: linear-gradient(135deg, #fdf4ff 0%, #faf5ff 100%);">
+                <div class="glass-card-header">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                  <span>Today's Reflection</span>
+                </div>
+                <p style="font-size: 14.5px; color: var(--color-text-dark); line-height: 1.45;" id="home-reflection-prompt">
+                  "What challenge are you navigating right now, and what is one small thing you can control?"
+                </p>
+                <div class="reflection-prompt-input-area">
+                  <input type="text" id="home-reflection-reply" class="onboarding-input" style="padding: 10px 14px; font-size: 13.5px; margin-bottom: 0;" placeholder="Write a brief reflection..." autocomplete="off">
+                  <button class="reflection-prompt-btn" onclick="submitHomeReflection()">Reflect</button>
+                </div>
+              </div>
+            </div>
+
+          </div> <!-- /responsive-grid -->
+        </div> <!-- /responsive-container -->
+      </div>
+    </div>
+
+    <!-- ==================== WALK VIEW (THE HEART) ==================== -->
+    <div id="view-walk" class="view">
+      <!-- Centered Chat Workspace Panel for Desktop -->
+      <div class="chat-responsive-container">
+        
+        <!-- Floating Companion Header -->
+        <div class="walk-header">
+          <div class="companion-profile-orb"></div>
+          <div class="companion-details">
+            <span class="companion-name">WithMe</span>
+            <span class="companion-status">walking beside you</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Chat Message Stream -->
+        <div class="chat-messages-container" id="chat-messages">
+          <!-- Messages are injected programmatically -->
+        </div>
+
+        <!-- Horizontal Scrolling Quick Response Chips -->
+        <div class="chat-chips-scroll-wrapper" id="chat-quick-chips">
+          <!-- Quick reply chips injected dynamically -->
+        </div>
+
+        <!-- Chat Input Bar -->
+        <div class="chat-input-bar">
+          <textarea id="chat-input-field" class="chat-text-area" placeholder="Write down your thoughts..." rows="1"></textarea>
+          <button class="chat-send-btn" id="chat-send-trigger" onclick="handleUserChatSend()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          </button>
+        </div>
+
+      </div> <!-- /chat-responsive-container -->
+    </div>
+
+    <!-- ==================== DECISIONS VIEW ==================== -->
+    <div id="view-decisions" class="view">
+      <div class="view-content">
+        <div class="responsive-container">
+          
+          <header class="home-header">
+            <h1 class="home-welcome-name">Clear Choices</h1>
+            <p class="home-subtext">Let's unpack your thoughts without any pressure.</p>
+          </header>
+
+          <!-- Adaptive 2-Column Grid Layout for Desktop -->
+          <div class="responsive-grid decisions-layout">
+            
+            <!-- Left Column: Guided Wizard -->
+            <div class="layout-column">
+              <!-- Intro Info Card -->
+              <div class="glass-card decision-welcome-card">
+                <div class="glass-card-header">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                  <span>Clarification Framework</span>
+                </div>
+                <p style="font-size: 13.5px; color: var(--color-text-dark); line-height: 1.5;">
+                  We will guide you step-by-step to explore benefits, risks, and trade-offs. I will never make the decision for you—I am here to help you find your own clarity.
+                </p>
+              </div>
+
+              <!--Guided 7-Step Decisions Wizard Card -->
+              <div class="glass-card decision-wizard-card" id="decision-wizard">
+                <div id="dec-step-1" class="dec-wizard-step active">
+                  <span class="decision-step-indicator">Step 1 of 6: Situation</span>
+                  <h3 class="decision-question-prompt">What decision are you currently weighing?</h3>
+                  <input type="text" id="dec-input-situation" class="onboarding-input" style="margin-bottom: 24px;" placeholder="e.g., Should I accept this lower-paying internship?">
+                  <button class="btn-primary" onclick="advanceDecisionWizard(2)">Next Step</button>
+                </div>
+
+                <div id="dec-step-2" class="dec-wizard-step" style="display: none;">
+                  <span class="decision-step-indicator">Step 2 of 6: Core Goal</span>
+                  <h3 class="decision-question-prompt">What are you hoping this choice will ultimately achieve?</h3>
+                  <input type="text" id="dec-input-goals" class="onboarding-input" style="margin-bottom: 24px;" placeholder="e.g., Building my long-term career portfolio">
+                  <div class="onboarding-btn-container">
+                    <button class="btn-secondary" onclick="regressDecisionWizard(1)">Back</button>
+                    <button class="btn-primary" onclick="advanceDecisionWizard(3)">Next Step</button>
+                  </div>
+                </div>
+
+                <div id="dec-step-3" class="dec-wizard-step" style="display: none;">
+                  <span class="decision-step-indicator">Step 3 of 6: Positives</span>
+                  <h3 class="decision-question-prompt">What are the primary benefits or upsides of this choice?</h3>
+                  <textarea id="dec-input-benefits" class="onboarding-input" style="height: 90px; resize: none; margin-bottom: 24px;" placeholder="e.g., Excellent learning curves, high-tier mentorship..."></textarea>
+                  <div class="onboarding-btn-container">
+                    <button class="btn-secondary" onclick="regressDecisionWizard(2)">Back</button>
+                    <button class="btn-primary" onclick="advanceDecisionWizard(4)">Next Step</button>
+                  </div>
+                </div>
+
+                <div id="dec-step-4" class="dec-wizard-step" style="display: none;">
+                  <span class="decision-step-indicator">Step 4 of 6: Negatives</span>
+                  <h3 class="decision-question-prompt">What are the key risks, stresses, or downsides?</h3>
+                  <textarea id="dec-input-risks" class="onboarding-input" style="height: 90px; resize: none; margin-bottom: 24px;" placeholder="e.g., Financial tight-spots, longer commutes..."></textarea>
+                  <div class="onboarding-btn-container">
+                    <button class="btn-secondary" onclick="regressDecisionWizard(3)">Back</button>
+                    <button class="btn-primary" onclick="advanceDecisionWizard(5)">Next Step</button>
+                  </div>
+                </div>
+
+                <div id="dec-step-5" class="dec-wizard-step" style="display: none;">
+                  <span class="decision-step-indicator">Step 5 of 6: Trade-offs</span>
+                  <h3 class="decision-question-prompt">What are you sacrificing by choosing this path?</h3>
+                  <textarea id="dec-input-tradeoffs" class="onboarding-input" style="height: 90px; resize: none; margin-bottom: 24px;" placeholder="e.g., Higher immediate income, some free time..."></textarea>
+                  <div class="onboarding-btn-container">
+                    <button class="btn-secondary" onclick="regressDecisionWizard(4)">Back</button>
+                    <button class="btn-primary" onclick="advanceDecisionWizard(6)">Reflect on it</button>
+                  </div>
+                </div>
+
+                <div id="dec-step-6" class="dec-wizard-step" style="display: none;">
+                  <span class="decision-step-indicator">Step 6 of 6: Clarity Questions & Action</span>
+                  <h3 class="decision-question-prompt" style="font-size: 16px; margin-bottom: 8px;">Companion Clarifying Question:</h3>
+                  <p id="decision-companion-q" style="font-size: 14.5px; color: var(--color-indigo); font-style: italic; line-height: 1.4; margin-bottom: 18px; padding-left: 8px; border-left: 3px solid var(--color-lavender);">
+                    "How does this choice align with your long-term wellness and core value of growth?"
+                  </p>
+                  <h3 class="decision-question-prompt" style="font-size: 15px; margin-bottom: 8px;">What is one tiny, practical next step?</h3>
+                  <input type="text" id="dec-input-nextstep" class="onboarding-input" style="margin-bottom: 24px;" placeholder="e.g., Schedule a 10-minute call with an alumnus">
+                  
+                  <div class="onboarding-btn-container">
+                    <button class="btn-secondary" onclick="regressDecisionWizard(5)">Back</button>
+                    <button class="btn-primary" onclick="completeDecisionWorkbook()">Save Clarification</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Decisions History Journal -->
+            <div class="layout-column">
+              <div class="glass-card-header" style="margin-bottom: 4px;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                <span>Decisions Journal</span>
+              </div>
+              
+              <div class="decisions-history-list" id="decisions-log-container">
+                <!-- Empty state default -->
+                <p style="font-size: 13.5px; color: var(--color-text-light); text-align: center; padding: 20px 0;" id="decisions-empty-label">
+                  No active decisions analyzed yet. Use the wizard above to begin mapping your thoughts.
+                </p>
+              </div>
+            </div>
+
+          </div> <!-- /responsive-grid -->
+        </div> <!-- /responsive-container -->
+      </div>
+    </div>
+
+    <!-- ==================== ROADMAP VIEW ==================== -->
+    <div id="view-roadmap" class="view">
+      <div class="view-content">
+        <div class="responsive-container">
+          
+          <header class="home-header">
+            <h1 class="home-welcome-name">Mindful Growth</h1>
+            <p class="home-subtext">Practical milestones on your own terms. No streaks or rush.</p>
+          </header>
+
+          <!-- Adaptive 3-Column Grid Layout for Desktop -->
+          <div class="responsive-grid roadmap-layout">
+            
+            <!-- Career Path -->
+            <div class="layout-column">
+              <div class="roadmap-section-title">Career Opportunities</div>
+              <div class="timeline-path">
+                <div class="timeline-node" id="roadmap-career-node">
+                  <div class="timeline-node-dot"></div>
+                  <div class="timeline-card">
+                    <div class="chapter-tag">Current Focus</div>
+                    <h4 class="chapter-title" id="rm-career-title">Exploring Career Opportunities</h4>
+                    <div class="chapter-next">Next: Gaining Professional Experience</div>
+                    <div class="chapter-actions">
+                      <div class="action-checkbox-row" onclick="toggleRoadmapTask(this, 'career', 'action1')">
+                        <div class="custom-checkbox"></div>
+                        <span class="action-label" id="rm-career-act1">Update profile resume drafts to reflect actual skills</span>
+                      </div>
+                      <div class="action-checkbox-row" onclick="toggleRoadmapTask(this, 'career', 'action2')">
+                        <div class="custom-checkbox"></div>
+                        <span class="action-label" id="rm-career-act2">Bookmark three job descriptions that resonate</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Money Path -->
+            <div class="layout-column">
+              <div class="roadmap-section-title">Money Confidence</div>
+              <div class="timeline-path">
+                <div class="timeline-node" id="roadmap-money-node">
+                  <div class="timeline-node-dot"></div>
+                  <div class="timeline-card">
+                    <div class="chapter-tag">Current Focus</div>
+                    <h4 class="chapter-title">Learning Financial Foundations</h4>
+                    <div class="chapter-next">Next: Creating Healthy Money Habits</div>
+                    <div class="chapter-actions">
+                      <div class="action-checkbox-row" onclick="toggleRoadmapTask(this, 'money', 'action1')">
+                        <div class="custom-checkbox"></div>
+                        <span class="action-label">Find out what a High-Yield Savings Account is</span>
+                      </div>
+                      <div class="action-checkbox-row" onclick="toggleRoadmapTask(this, 'money', 'action2')">
+                        <div class="custom-checkbox"></div>
+                        <span class="action-label">Calculate approximate static living costs for next month</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Life Skills Path -->
+            <div class="layout-column">
+              <div class="roadmap-section-title">Life Skills</div>
+              <div class="timeline-path">
+                <div class="timeline-node" id="roadmap-skills-node">
+                  <div class="timeline-node-dot"></div>
+                  <div class="timeline-card">
+                    <div class="chapter-tag">Current Focus</div>
+                    <h4 class="chapter-title">Growing Independence</h4>
+                    <div class="chapter-next">Next: Confidently Navigating Agreements</div>
+                    <div class="chapter-actions">
+                      <div class="action-checkbox-row" onclick="toggleRoadmapTask(this, 'skills', 'action1')">
+                        <div class="custom-checkbox"></div>
+                        <span class="action-label">Read one sample apartment lease or contract clause</span>
+                      </div>
+                      <div class="action-checkbox-row" onclick="toggleRoadmapTask(this, 'skills', 'action2')">
+                        <div class="custom-checkbox"></div>
+                        <span class="action-label">Practice preparing one healthy home-cooked meal</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div> <!-- /responsive-grid -->
+        </div> <!-- /responsive-container -->
+      </div>
+    </div>
+
+    <!-- ==================== PROFILE VIEW ==================== -->
+    <div id="view-profile" class="view">
+      <div class="view-content">
+        <div class="responsive-container">
+          
+          <!-- Adaptive 2-Column Grid Layout for Desktop -->
+          <div class="responsive-grid profile-layout">
+            
+            <!-- Left Column: User Identity Profile Cards -->
+            <div class="layout-column">
+              <!-- Evolving Story Header -->
+              <div class="glass-card profile-card">
+                <div class="profile-orb-glow"></div>
+                <div class="profile-avatar-initial" id="profile-initials">A</div>
+                <h2 class="profile-name" id="profile-display-name">Arjun</h2>
+                <p class="profile-subtitle" id="profile-display-subtitle">22 • Fresh Graduate</p>
+              </div>
+
+              <!-- Identity Scrapbook Details -->
+              <div class="story-grid">
+                <div class="story-item">
+                  <span class="story-item-label">Core Aspirations</span>
+                  <span class="story-item-value" id="profile-aspirations">Exploring new paths</span>
+                </div>
+                <div class="story-item">
+                  <span class="story-item-label">Growth Focus</span>
+                  <span class="story-item-value" id="profile-focus">Personal Growth</span>
+                </div>
+              </div>
+
+              <div class="glass-card">
+                <div class="story-item-label">Biggest Adulthood Challenge</div>
+                <p style="font-size: 14px; line-height: 1.45; color: var(--color-text-dark); font-weight: 500; margin-top: 4px;" id="profile-display-fear">
+                  "Finding a solid internship and managing monthly budgets without feeling behind."
+                </p>
+              </div>
+
+              <!-- Restart / Clear App Data -->
+              <div class="profile-meta-actions" style="justify-content: flex-start;">
+                <button class="clear-data-btn" onclick="confirmResetAppData()">Reset & Start New Chapter</button>
+              </div>
+            </div>
+
+            <!-- Right Column: Journey Highlights memory log -->
+            <div class="layout-column">
+              <div class="glass-card-header" style="margin-bottom: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                <span>Journey Highlights</span>
+              </div>
+
+              <div class="highlight-timeline" id="profile-highlights-container">
+                <!-- Dynamically populated or soft placeholder fallback -->
+                <div class="highlight-item" id="highlight-default-placeholder">
+                  <div class="highlight-icon-box action">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  </div>
+                  <div class="highlight-text-content">
+                    <p class="highlight-caption">Stepped into the WithMe sanctuary and took the first step on your journey.</p>
+                    <p class="highlight-time">Just now</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div> <!-- /responsive-grid -->
+        </div> <!-- /responsive-container -->
+      </div>
+    </div>
+
+    <!-- ==================== BOTTOM NAVIGATION BAR ==================== -->
+    <nav class="bottom-nav hidden" id="app-nav-bar">
+      <div class="nav-bar-responsive-container">
+        
+        <a class="nav-item active" onclick="switchTab('home')" id="nav-home">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          <span>Home</span>
+        </a>
+
+        <a class="nav-item" onclick="switchTab('roadmap')" id="nav-roadmap">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+          <span>Roadmap</span>
+        </a>
+
+        <!-- Emphasized Core Feature "Walk" -->
+        <a class="nav-item walk-nav" onclick="switchTab('walk')" id="nav-walk">
+          <div class="walk-nav-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+          </div>
+        </a>
+
+        <a class="nav-item" onclick="switchTab('decisions')" id="nav-decisions">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.256 18a3.5 3.5 0 013-2h1.5a3.5 3.5 0 013 2M12 4v16"/></svg>
+          <span>Decisions</span>
+        </a>
+
+        <a class="nav-item" onclick="switchTab('profile')" id="nav-profile">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+          <span>Profile</span>
+        </a>
+
+      </div>
+    </nav>
+
+    <!-- ==================== DECISION VIEW JOURNAL MODAL ==================== -->
+    <div class="decision-modal" id="modal-decision-viewer" onclick="closeDecisionModal(event)">
+      <div class="decision-modal-content" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <h3 class="modal-title" id="modal-dec-title">Decision Details</h3>
+          <button class="modal-close-btn" onclick="closeDecisionModal(null)">✕</button>
+        </div>
+        
+        <div class="modal-body-section">
+          <div class="modal-section-title">The Situation</div>
+          <div class="modal-section-body" id="modal-dec-situation"></div>
+        </div>
+
+        <div class="modal-body-section">
+          <div class="modal-section-title">Core Desired Goal</div>
+          <div class="modal-section-body" id="modal-dec-goals"></div>
+        </div>
+
+        <div class="modal-body-section">
+          <div class="modal-section-title">Upsides & Benefits</div>
+          <div class="modal-section-body" id="modal-dec-benefits" style="white-space: pre-wrap;"></div>
+        </div>
+
+        <div class="modal-body-section">
+          <div class="modal-section-title">Risks & Downsides</div>
+          <div class="modal-section-body" id="modal-dec-risks" style="white-space: pre-wrap;"></div>
+        </div>
+
+        <div class="modal-body-section">
+          <div class="modal-section-title">Key Trade-offs</div>
+          <div class="modal-section-body" id="modal-dec-tradeoffs" style="white-space: pre-wrap;"></div>
+        </div>
+
+        <div class="modal-body-section">
+          <div class="modal-section-title">Your Tiny Next Step</div>
+          <div class="modal-section-body" id="modal-dec-nextstep" style="font-weight: 600; color: var(--color-teal);"></div>
+        </div>
+
+        <p style="font-size: 11px; text-align: center; color: var(--color-text-light); margin-top: 18px;" id="modal-dec-date"></p>
+      </div>
+    </div>
+
+  </div> <!-- /app-root -->
+
+  <script src="app.js"></script>
+</body>
+</html>
